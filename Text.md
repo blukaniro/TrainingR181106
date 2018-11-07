@@ -19,10 +19,10 @@ f<-a*b #行列要素の掛け算
 ## データの読み込み  
   
 ### ディレクトリの設定  
-  
 ```R  
 getwd()  
 ```  
+### ディレクトリの変更  
 -  File > Change Directory ...  
   
 ###  データの読み込み
@@ -48,7 +48,6 @@ class(d1$SDW)
 ```  
   
 ## データの一部を抽出する  
-
 ```R  
 A<-d1[1,1]
 A<-d1[10,1]  
@@ -70,8 +69,8 @@ Stage<-d1$stage
 sd5<-subset(d1,d1$Stage=="5week")  
 sd8<-subset(d1,d1$Stage=="8week")  
 ```  
+  
 ##データが多い場合はdplyrを使うと早い  
-
 ```R  
 library(dplyr)
 data5week <-d1 %>%
@@ -79,7 +78,6 @@ data5week <-d1 %>%
 ```  
 
 ##データの換算値の付け足しも簡単  
-
 ```R  
 data2 <-d1 %>%
     dplyr::mutate(
@@ -88,11 +86,9 @@ data2 <-d1 %>%
         SRL=d1$RLD/d1$RDW
         )
 ```  
-
   
 # データのアウトラインを図で見る  
 ## 相関図  
-  
 ```R  
 plot(d1[,5:8])  
 plot(d1[,6], d1[,7]) # Selected  
@@ -109,10 +105,8 @@ cor_num<-cor(d1[,5:8])
 library(corrplot)
 corrplot.mixed(cor_num,lower="number",upper='ellipse')
 ```  
-
   
 ## 箱ひげ図
-
 ```R  
 boxplot(d1$SDW)  
 boxplot(sd5$SDW, sd8$SDW)  
@@ -120,15 +114,11 @@ boxplot(sd5$SDW~sd5$Limitation)
 boxplot(sd5$SDW~sd5$Inoculation)  
 ```  
   
-# 統計解析Statical analysis  
+# 統計解析  
 ## Fisher 1966  
+- If the design of an experiment is faulty, any method of interpretation which makes it out to be decisive must be faulty, too.  
   
-```  
-If the design of an experiment is faulty, any method of interpretation which makes it out to be decisive must be faulty, too.
-```  
-
 ## Fisherの3原則  
-
 - 反復：実験ごとのばらつきを考慮するため同条件で複数回実験する  
 - 局所管理：反復(ブロック)内では解析する要因以外の制御可能な要因は一定にする  
 - 無作為化：制御できない要因はランダムになるようにする(系統誤差をなくす)  
@@ -175,7 +165,7 @@ summary(result)
 TukeyHSD(result)  
 ```  
   
-### multcompパッケージ利用，Tukey  
+### multcomp利用，Tukey  
 ```R  
 result<-aov(SDW~Treatment, d2)  
 Tukey<-glht(result, linfct=mcp(Treatment="Tukey"))  
@@ -183,7 +173,7 @@ summary(Tukey)
 cld(Tukey, level = 0.05, decreasing = TRUE) # attach alphabet  
 ```  
   
-### multcompパッケージ利用，Dunnett  
+### multcomp利用，Dunnett  
 ```R  
 result<-aov(SDW~Treatment, d2)  
 Dunnett<-glht(result, linfct=mcp(Treatment="Dunnett"))  
